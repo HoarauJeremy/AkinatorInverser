@@ -3,10 +3,9 @@ from ollama import chat
 
 # Liste pour stocker l'historique des messages
 messages_history = []
+
 agents = open('agents.txt', 'r', newline="")
 liste_agents = agents.read()
-
-print(liste_agents)
 
 def initialize_context(role_description: str) -> None:
     """
@@ -20,10 +19,8 @@ def initialize_context(role_description: str) -> None:
     # On ajoute le message de contexte qui définit le rôle
     context_message = {
         'role': 'system',
-        # 'content': f"Tu es un joueur qui agit en tant que {role_description}. " f"Réponds toujours en respectant ce rôle."
-       'content': f"Tu es un joueur qui agit en tant que {role_description}. " f"Réponds toujours en respectant ce rôle. " f" Voici une liste des agents pour que tes information soit à jour {liste_agents}. N'oublie pas c'est a moi de deviner quel agent tu a choisie"
+        'content': f"Tu es un joueur qui agit en tant que {role_description}. " f"Réponds toujours en respectant ce rôle. " f" Voici une liste des agents pour que tes informations soient à jour {liste_agents}. N'oublie pas, c'est à moi de deviner quel agent tu as choisi."
     }
-    print(context_message)
     messages_history.append(context_message)
 
 
@@ -52,17 +49,15 @@ def send_message_with_history(model_name: str, message: str) -> str:
 
 
 def error_message():
-    print("\nMmm. Il semblerait qu'une erreur soit survenue\n")
+    print("\nMmm... Il semblerait qu'une erreur soit survenue\n")
 
 
 def recherche_agents():
-    print(' 1 - Démarrer le jeu')
-    print(' 2 - Quitter')
+    print('Vous pouvez écrire "quitter" pour sortir du jeu.')
 
     while True:
-
         try:
-           message = input("Question : ")
+           message = input("Posez votre question : ")
         except ValueError:
             error_message()
         else:
@@ -70,25 +65,22 @@ def recherche_agents():
                 case "quitter":
                     break
                 case _:
-                    # Test de la conversation
-                    # if message != "quitter":
                     reponse = send_message_with_history('llama3.2', message)
                     print(reponse)
-                    # else: break
 
 
 # Exemple d'utilisation
 if __name__ == "__main__":
 
     # Initialisation du contexte
-    initialize_context(f"joueur d'akinator qui veut faire deviner un agents de valorant.")
+    initialize_context(f"joueur d'akinator qui veut faire deviner un agent de Valorant.")
 
     while True:
         print(' 1 - Démarrer le jeu')
         print(' 2 - Quitter')
 
         try:
-            option = int(input("Selectionner une option : "))
+            option = int(input("Sélectionner une option : "))
         except ValueError:
             error_message()
         else:
