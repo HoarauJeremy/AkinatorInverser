@@ -1,5 +1,6 @@
 # Importation de la fonction chat depuis la librairie ollama
-from ollama import chat
+from colorama import Fore, Style
+import ollama
 
 # Liste pour stocker l'historique des messages
 messages_history = []
@@ -40,7 +41,7 @@ def send_message_with_history(model_name: str, message: str) -> str:
     })
 
     # Envoi de tout l'historique au modèle
-    response = chat(model=model_name, messages=messages_history)
+    response = ollama.chat(model=model_name, messages=messages_history)
 
     # Ajout de la réponse à l'historique
     messages_history.append(response.message)
@@ -53,7 +54,7 @@ def error_message():
 
 
 def recherche_agents():
-    print('Vous pouvez écrire "quitter" pour sortir du jeu.')
+    print(Fore.GREEN + 'Vous pouvez écrire "quitter" pour sortir du jeu.' + Style.RESET_ALL)
 
     while True:
         try:
@@ -66,7 +67,7 @@ def recherche_agents():
                     break
                 case _:
                     reponse = send_message_with_history('llama3.2', message)
-                    print(reponse)
+                    print(Fore.LIGHTYELLOW_EX + reponse + Style.RESET_ALL)
 
 
 # Exemple d'utilisation
